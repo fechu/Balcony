@@ -1,11 +1,10 @@
 from flask import Flask
+from actions.led import led_page
 
+# Setup the app!
 app = Flask(__name__)
+app.register_blueprint(led_page, url_prefix='/led')
 
-
-@app.route("/")
-def hello():
-    return "Hello World"
 
 if __name__ == '__main__':
     app.run(
