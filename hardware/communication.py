@@ -9,7 +9,10 @@ _serial = Serial(
 
 
 class Command:
-    STATUS = 0  # type: int
+    """
+    Command 0 is reserved and may not be used.
+    """
+    STATUS = 1  # type: int
     PLAY_PATTERN = 10  # type: int
 
 
