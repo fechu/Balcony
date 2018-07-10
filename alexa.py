@@ -33,7 +33,7 @@ class Reqeust(object):
                     if "show" in slots:
                         show_slot = slots["show"]
                         if "value" in show_slot:
-                            return slots["value"]
+                            return show_slot["value"]
 
         return None
 
