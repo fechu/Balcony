@@ -27,8 +27,9 @@ class Reqeust(object):
         if "request" in self._request_content:
             request_info = self._request_content["request"]
             if "intent" in request_info:
-                if "slots" in request_info:
-                    slots = request_info["slots"]
+                intent = request_info["intent"]
+                if "slots" in intent:
+                    slots = intent["slots"]
                     if "value" in slots:
                         return slots["value"]
 
