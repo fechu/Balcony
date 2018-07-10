@@ -42,7 +42,7 @@ class Reqeust(object):
         if "request" in self._request_content:
             request_info = self._request_content["request"]
             if "intent" in request_info:
-                intent_name = request_info["name"]
+                intent_name = request_info["intent"]["name"]
                 return intent_name
 
         return None
