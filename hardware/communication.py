@@ -13,7 +13,8 @@ class Command:
     Command 0 is reserved and may not be used.
     """
     STATUS = 1  # type: int
-    PLAY_PATTERN = 10  # type: int
+    PLAY = 10  # type: int
+    STOP = 20 # type: int
 
 
 class Response:
@@ -21,7 +22,7 @@ class Response:
 
 
 class LightPattern:
-    WHITE_FULL = 1  # type: int
+    NORMAL = 1  # type: int
 
 
 def check_connectivity(self):
@@ -39,7 +40,16 @@ def play_pattern(pattern):
     :param pattern: The identifier of the pattern.
     :return: True if the pattern was started, false otherwise.
     """
-    _send_command(Command.PLAY_PATTERN, pattern)
+    _send_command(Command.PLAY, pattern)
+    return _check_ok()
+
+
+def turn_off():
+    """
+    Turn off the current light
+    :return:
+    """
+    _send_command(Command.STOP)
     return _check_ok()
 
 

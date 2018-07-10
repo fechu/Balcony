@@ -2,6 +2,7 @@ import alexa
 import json
 from flask import Blueprint, request, jsonify
 from decorators import validate_api_key
+from hardware import communication
 
 led_page = Blueprint('led_page', __name__)
 
@@ -16,10 +17,13 @@ def turn_on():
     if alexa_request.is_play_request():
         show = alexa_request.get_show()
         text = "Playing {}".format(show)
+        # TODO: Implement mapping from name to name/id to pattern
     elif alexa_request.is_turn_on_request():
         text = "Turning on lights."
+        communication.play_pattern(communication.LightPattern.NORMAL)
     elif alexa_request.is_turn_off_request():
         text = "Turning off lights."
+        communication.turn_off()
     else:
         text = "Unknown intent..."
 
