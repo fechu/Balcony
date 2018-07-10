@@ -1,3 +1,4 @@
+import alexa
 from flask import Blueprint, request, jsonify
 from decorators import validate_api_key
 
@@ -8,14 +9,22 @@ led_page = Blueprint('led_page', __name__)
 @validate_api_key
 def turn_on():
 
-    alexa_request = request.json
+    alexa_request = alexa.Reqeust(request.json)
+
+    if alexa_request.is_play_request():
+        show = alexa_request.get_show()
+        text = "Playing {}".format(show)
+    elif alexa_request.is_turn_on_request():
+        text = "Turning on lights."
+    elif alexa_request.is_turn_off_request():
+        text = "Turning off lights."
 
     response = {
         "version": "1.0",
         "response": {
             "outputSpeech": {
                 "type": "PlainText",
-                "text": "Today will provide you a new learning opportunity.  Stick with it and the possibilities will be endless. Can I help you with anything else?"
+                "text": text
             },
             "shouldEndSession": True
         }

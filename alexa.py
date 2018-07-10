@@ -20,6 +20,19 @@ class Reqeust(object):
         return intent_name == "Play"
 
     def get_show(self):
+        """
+        Get the name of the show slot.
+        :return: The name of the show on success, None otherwise.
+        """
+        if "request" in self._request_content:
+            request_info = self._request_content["request"]
+            if "intent" in request_info:
+                if "slots" in request_info:
+                    slots = request_info["slots"]
+                    if "value" in slots:
+                        return slots["value"]
+
+        return None
 
     def _get_intent_name(self):
         """
