@@ -45,7 +45,7 @@ class Reqeust(object):
             current_dir = current_dir[0]
             if "values" in current_dir and len(current_dir["values"]) > 0:
                 current_dir = current_dir["values"][0]
-                if "value" in current_dir && "id" in current_dir["value"]:
+                if "value" in current_dir and "id" in current_dir["value"]:
                     return int(current_dir["value"]["id"])
 
         return None
