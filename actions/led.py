@@ -1,4 +1,5 @@
 import alexa
+import json
 from flask import Blueprint, request, jsonify
 from decorators import validate_api_key
 
@@ -9,7 +10,7 @@ led_page = Blueprint('led_page', __name__)
 @validate_api_key
 def turn_on():
 
-    print(request.json)
+    print(json.dumps(request.json, indent=2))
     alexa_request = alexa.Reqeust(request.json)
 
     if alexa_request.is_play_request():

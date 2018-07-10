@@ -30,8 +30,10 @@ class Reqeust(object):
                 intent = request_info["intent"]
                 if "slots" in intent:
                     slots = intent["slots"]
-                    if "value" in slots:
-                        return slots["value"]
+                    if "show" in slots:
+                        show_slot = slots["show"]
+                        if "value" in show_slot:
+                            return slots["value"]
 
         return None
 
