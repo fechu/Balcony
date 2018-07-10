@@ -7,7 +7,6 @@ _serial = Serial(
     timeout=1.0
 )
 
-
 class Command:
     """
     Command 0 is reserved and may not be used.

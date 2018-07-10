@@ -21,19 +21,32 @@ class Reqeust(object):
 
     def get_show(self):
         """
-        Get the name of the show slot.
+        Get the id of the show slot.
         :return: The name of the show on success, None otherwise.
         """
-        if "request" in self._request_content:
-            request_info = self._request_content["request"]
-            if "intent" in request_info:
-                intent = request_info["intent"]
-                if "slots" in intent:
-                    slots = intent["slots"]
-                    if "show" in slots:
-                        show_slot = slots["show"]
-                        if "value" in show_slot:
-                            return show_slot["value"]
+
+        keys = [
+            "request",
+            "intent",
+            "slots",
+            "show",
+            "resolutions",
+            "resolutionsPerAuthority"
+        ]
+
+        current_dir = self._request_content
+        for key in keys:
+            if key not in current_dir:
+                break
+            current_dir = current_dir[key]
+
+        # resolutionsPerAuthority is an array
+        if len(current_dir) > 0:
+            current_dir = current_dir[0]
+            if "values" in current_dir and len(current_dir["values"]) > 0:
+                current_dir = current_dir["values"][0]
+                if "value" in current_dir && "id" in current_dir["value"]:
+                    return int(current_dir["value"]["id"])
 
         return None
 
