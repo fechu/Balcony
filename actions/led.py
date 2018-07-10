@@ -15,8 +15,9 @@ def turn_on():
     alexa_request = alexa.Reqeust(request.json)
 
     if alexa_request.is_play_request():
-        show = alexa_request.get_show()
-        text = "Playing {}".format(show)
+        pattern_id = alexa_request.get_show()
+        text = "Of course!"
+        communication.play_pattern(pattern_id)
         # TODO: Implement mapping from name to name/id to pattern
     elif alexa_request.is_turn_on_request():
         text = "Turning on lights."
