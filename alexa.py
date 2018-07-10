@@ -13,7 +13,7 @@ class Reqeust(object):
 
     def is_turn_off_request(self):
         intent_name = self._get_intent_name()
-        return intent_name == "TurnOff" or "AMAZON.StopIntent"
+        return intent_name == "TurnOff" or intent_name == "AMAZON.StopIntent"
 
     def is_play_request(self):
         intent_name = self._get_intent_name()
