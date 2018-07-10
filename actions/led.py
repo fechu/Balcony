@@ -9,6 +9,7 @@ led_page = Blueprint('led_page', __name__)
 @validate_api_key
 def turn_on():
 
+    print(request.json)
     alexa_request = alexa.Reqeust(request.json)
 
     if alexa_request.is_play_request():
@@ -18,6 +19,8 @@ def turn_on():
         text = "Turning on lights."
     elif alexa_request.is_turn_off_request():
         text = "Turning off lights."
+    else:
+        text = "Unknown intent..."
 
     response = {
         "version": "1.0",
