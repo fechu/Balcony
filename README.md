@@ -14,3 +14,8 @@ On the raspberry pi the server is setup to automatically start. This is done by 
     (python3 /home/pi/Balcony/server.py &) > /dev/null 2>&1
 
 to the `/etc/rc.local` file
+
+## Serial Communication vs. LED Updates
+The update of the WS2812 leds is a blocking process because the used protocol is timing sensitive. Therefore, no serial communication can happen at the same time. To solve this, there's only two ways to display a light pattern:
+- Static light. I.e. light you only set up and then stays like this.
+- Shows that block any further communication for some time.
