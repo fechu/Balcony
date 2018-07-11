@@ -16,15 +16,19 @@ def turn_on():
 
     if alexa_request.is_play_request():
         pattern_id = alexa_request.get_show()
-        text = "Of course!"
-        communication.play_pattern(pattern_id)
-        # TODO: Implement mapping from name to name/id to pattern
+        if pattern_id is not None :
+            text = "Of course!"
+            communication.play_pattern(pattern_id)
+        else:
+            text = "Sorry, I don't have a patter with that name."
     elif alexa_request.is_turn_on_request():
         text = "Turning on lights."
         communication.play_pattern(communication.LightPattern.NORMAL)
     elif alexa_request.is_turn_off_request():
         text = "Turning off lights."
         communication.turn_off()
+    elif alexa_request.is_help_request():
+        text = "Use our balcony to control turn the light on or off or play a pattern. Available patterns are flash, random, bright, normal, rainbow or dots."
     else:
         text = "Unknown intent..."
 

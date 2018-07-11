@@ -7,6 +7,10 @@ class Reqeust(object):
     def __init__(self, request_content):
         self._request_content = request_content
 
+    def is_help_request(self):
+        intent_name = self._get_intent_name()
+        return intent_name == "AMAZON.HelpIntent"
+
     def is_turn_on_request(self):
         intent_name = self._get_intent_name()
         return intent_name == "TurnOn"
