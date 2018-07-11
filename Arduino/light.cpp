@@ -33,8 +33,32 @@ void playPattern(uint8_t pattern) {
       FastLED.showColor(CRGB::White, 50);
       break;
     }
+    case 1: {
+      FastLED.showColor(CRGB::White, 20);
+      break;
+    }
     case 2: {
+      FastLED.showColor(CRGB::White, 255);
+      break;
+    }
+    case 3: {
       rainbow(PATTERN_DURATION);
+      playPattern(0);
+      break;
+    }
+    case 4: {
+      dots(PATTERN_DURATION);
+      playPattern(0);
+      break;
+    }
+    case 5: {
+      random_dots(PATTERN_DURATION);
+      playPattern(0);
+      break;
+    }
+
+    case 6: {
+      flash(PATTERN_DURATION);
       playPattern(0);
       break;
     }
@@ -61,3 +85,68 @@ void rainbow(uint32_t duration) {
     delay(loop_delay);
   }
 }
+
+void dots(uint32_t duration) {
+  uint8_t hue = 0;
+  uint8_t deltaHue = 1;
+  uint8_t loop_delay = 40;
+  uint32_t time = 0;
+  uint32_t position = 0;
+
+  while (time < duration) {
+    time += loop_delay;
+    hue += deltaHue;
+
+    fadeToBlackBy( leds, LED_COUNT_PER_STRIP, 20);
+    leds[position] += CHSV( hue, 255, 192);
+    
+    FastLED.show();
+
+    position += 1;
+    if (position >= LED_COUNT_PER_STRIP) {
+      position = 0;
+    }
+
+    delay(loop_delay);
+  }
+}
+
+void random_dots(uint32_t duration) {
+  uint8_t loop_delay = 40;
+  uint32_t time = 0;
+
+  while (time < duration) {
+    time += loop_delay;
+
+    fadeToBlackBy( leds, LED_COUNT_PER_STRIP, 20);
+
+    long numberOfLeds = random(5);
+    for (long i = 0; i < numberOfLeds; ++i) {
+      // Find a position
+      long pos = random(LED_COUNT_PER_STRIP);
+      leds[pos].r = static_cast<uint8_t>(random(255));
+      leds[pos].g = static_cast<uint8_t>(random(255));
+      leds[pos].b = static_cast<uint8_t>(random(255));
+    }
+    
+    FastLED.show();
+
+    delay(loop_delay);
+  }
+}
+
+void flash(uint32_t duration) {
+  uint8_t flash_delay = 50;
+  uint8_t loop_delay = 2 * flash_delay;
+  uint32_t time = 0;
+
+  while (time < duration) {
+    time += loop_delay;
+
+    FastLED.showColor(CRGB::White);
+    delay(flash_delay);
+    FastLED.showColor(CRGB::Black);
+    delay(flash_delay);
+  }
+}
+
