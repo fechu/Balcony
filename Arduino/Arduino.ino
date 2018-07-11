@@ -14,8 +14,6 @@ void setup() {
   // Setup LEDs
   initLights();
 
-  playPattern(6);
-
   // Setup communication
   Serial.begin(9600);
 
