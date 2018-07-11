@@ -25,6 +25,7 @@ class Reqeust(object):
         :return: The name of the show on success, None otherwise.
         """
 
+        # TODO:  Super Dirty & Hacky to get the ID of the show slot...
         keys = [
             "request",
             "intent",

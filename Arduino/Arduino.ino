@@ -1,4 +1,5 @@
 #include <FastLED.h>
+#include "light.hpp"
 
 #include "Arduino.h"
 
@@ -9,25 +10,11 @@
 #define RESPONSE_OK 1
 #define RESPONSE_ERROR 255
 
-#define LED_DATA_PIN_1 7
-#define LED_DATA_PIN_2 8
-#define LED_DATA_PIN_3 9
-#define LED_DATA_PIN_4 10
-
-#define LED_COUNT_PER_STRIP 60
-#define LED_COUNT 240
-CRGB leds[LED_COUNT];
-
 void setup() {
   // Setup LEDs
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_1>(leds, 0 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_2>(leds, 1 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_3>(leds, 2 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
-  FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_4>(leds, 3 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
+  initLights();
 
-  FastLED.showColor(CRGB::White);
-  delay(500);
-  FastLED.showColor(CRGB::Black);
+  //playPattern(2);
 
   // Setup communication
   Serial.begin(9600);
@@ -66,16 +53,7 @@ bool getCommand(uint8_t &command, uint8_t &parameter) {
   return false;
 }
 
-/**
- * Starts to play the given pattern.
- * This method is blocking for the duration of the show.
- * @param pattern The pattern to play.
- * @return True if it was successful.
- */
-bool playPattern(uint8_t pattern) {
-  FastLED.showColor(CRGB::White);
-  return true;
-}
+
 
 /**
  * Handles the received command with the paramter.
@@ -95,13 +73,9 @@ void handleCommand(uint8_t command, uint8_t parameter) {
       break;
     }
     case COMMAND_PLAY: {
-      bool result = playPattern(parameter);
-      if (result) {
-        Serial.write(RESPONSE_OK);
-      }
-      else {
-        Serial.write(RESPONSE_ERROR);
-      }
+      Serial.write(RESPONSE_OK);
+      playPattern(parameter);
+      break;
     }
     default:
       break;
