@@ -28,7 +28,7 @@ def turn_on():
         text = "Turning off lights."
         communication.turn_off()
     elif alexa_request.is_help_request():
-        text = "Use our balcony to control turn the light on or off or play a pattern. Available patterns are flash, random, bright, normal, rainbow or dots."
+        text = "Use our balcony to turn the light on or off or play a pattern. Available patterns are: flash, random, bright, normal, rainbow or dots."
     else:
         text = "Unknown intent..."
 
