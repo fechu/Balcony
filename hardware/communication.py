@@ -21,7 +21,7 @@ class Response:
 
 
 class LightPattern:
-    NORMAL = 1  # type: int
+    NORMAL = 0  # type: int
 
 
 def check_connectivity(self):
