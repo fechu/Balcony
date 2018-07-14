@@ -2,10 +2,10 @@
 #include <FastLED.h>
 #include "light.hpp"
 
-#define LED_DATA_PIN_1 7
-#define LED_DATA_PIN_2 8
-#define LED_DATA_PIN_3 9
-#define LED_DATA_PIN_4 10
+#define LED_DATA_PIN_1 4
+#define LED_DATA_PIN_2 5
+#define LED_DATA_PIN_3 6
+#define LED_DATA_PIN_4 7
 
 #define LED_COUNT_PER_STRIP 60
 #define LED_COUNT 240
@@ -19,6 +19,10 @@ void initLights() {
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_2>(leds, 1 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_3>(leds, 2 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_4>(leds, 3 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
+
+
+  FastLED.setBrightness(20);
+  FastLED.showColor(CRGB::Black);
 }
 
 /**
@@ -73,13 +77,16 @@ void playPattern(uint8_t pattern) {
 void rainbow(uint32_t duration) {
   uint8_t initialHue = 0;
   uint8_t deltaHue = 5;
-  uint8_t loop_delay = 40;
+  uint8_t loop_delay = 60;
   uint32_t time = 0;
 
   while (time < duration) {
     time += loop_delay;
     initialHue += deltaHue;
-    fill_rainbow(leds, LED_COUNT_PER_STRIP, initialHue, deltaHue);
+    fill_rainbow(leds + 0 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP, initialHue, deltaHue);
+    fill_rainbow(leds + 1 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP, initialHue, deltaHue);
+    fill_rainbow(leds + 2 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP, initialHue, deltaHue);
+    fill_rainbow(leds + 3 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP, initialHue, deltaHue);
     FastLED.show();
 
     delay(loop_delay);
@@ -97,8 +104,11 @@ void dots(uint32_t duration) {
     time += loop_delay;
     hue += deltaHue;
 
-    fadeToBlackBy( leds, LED_COUNT_PER_STRIP, 20);
-    leds[position] += CHSV( hue, 255, 192);
+    fadeToBlackBy(leds, LED_COUNT, 20);
+    leds[position + 0 * LED_COUNT_PER_STRIP] += CHSV(hue, 255, 192);
+    leds[position + 1 * LED_COUNT_PER_STRIP] += CHSV(hue, 255, 192);
+    leds[position + 2 * LED_COUNT_PER_STRIP] += CHSV(hue, 255, 192);
+    leds[position + 3 * LED_COUNT_PER_STRIP] += CHSV(hue, 255, 192);
     
     FastLED.show();
 
@@ -118,12 +128,12 @@ void random_dots(uint32_t duration) {
   while (time < duration) {
     time += loop_delay;
 
-    fadeToBlackBy( leds, LED_COUNT_PER_STRIP, 20);
+    fadeToBlackBy( leds, LED_COUNT, 20);
 
-    long numberOfLeds = random(5);
+    long numberOfLeds = random(20);
     for (long i = 0; i < numberOfLeds; ++i) {
       // Find a position
-      long pos = random(LED_COUNT_PER_STRIP);
+      long pos = random(LED_COUNT);
       leds[pos].r = static_cast<uint8_t>(random(255));
       leds[pos].g = static_cast<uint8_t>(random(255));
       leds[pos].b = static_cast<uint8_t>(random(255));
