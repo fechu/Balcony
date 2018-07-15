@@ -20,8 +20,8 @@ void initLights() {
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_3>(leds, 2 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
   FastLED.addLeds<NEOPIXEL, LED_DATA_PIN_4>(leds, 3 * LED_COUNT_PER_STRIP, LED_COUNT_PER_STRIP);
 
-
-  FastLED.setBrightness(20);
+  // Low intensity for debugging
+  // FastLED.setBrightness(20);
   FastLED.showColor(CRGB::Black);
 }
 
