@@ -3,9 +3,17 @@
 
 #include "Arduino.h"
 
+// TODO: Implement a finite state machine to better handle command parsing.
 #define COMMAND_STATUS 1
 #define COMMAND_PLAY 10
 #define COMMAND_STOP 20
+
+// Commands to set a specific color to all leds
+#define COMMAND_SET_RED         0xA0
+#define COMMAND_SET_GREEN       0xA1
+#define COMMAND_SET_BLUE        0xA2
+#define COMMAND_SET_BRIGHTNESS  0xA3
+#define COMMANd_SHOW_RGB        0xA4
 
 #define RESPONSE_OK 1
 #define RESPONSE_ERROR 255
@@ -20,7 +28,10 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 }
 
+// storage for the color received over serial
+uint8_t r, g, b, brightness = 0;
 
+// For command parsing
 uint8_t byte1 = 0;
 
 /**
@@ -73,6 +84,27 @@ void handleCommand(uint8_t command, uint8_t parameter) {
     case COMMAND_PLAY: {
       Serial.write(RESPONSE_OK);
       playPattern(parameter);
+      break;
+    }
+    case COMMAND_SET_RED: {
+      r = parameter;
+      break;
+    }
+    case COMMAND_SET_GREEN: {
+      g = parameter;
+      break;
+    }
+    case COMMAND_SET_BLUE: {
+      b = parameter;
+      break;
+    }
+    case COMMAND_SET_BRIGHTNESS: {
+      brightness = parameter;
+      break;
+    }
+    case COMMANd_SHOW_RGB: {
+      set_color(r, g, b, brightness);
+      Serial.write(RESPONSE_OK);
       break;
     }
     default:
