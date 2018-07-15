@@ -9,11 +9,10 @@
 #define COMMAND_STOP 20
 
 // Commands to set a specific color to all leds
-#define COMMAND_SET_RED         0xA0
-#define COMMAND_SET_GREEN       0xA1
-#define COMMAND_SET_BLUE        0xA2
-#define COMMAND_SET_BRIGHTNESS  0xA3
-#define COMMANd_SHOW_RGB        0xA4
+#define COMMAND_SET_HUE         0xA0
+#define COMMAND_SET_SATURATION  0xA1
+#define COMMAND_SET_VALUE       0xA2
+#define COMMANd_SHOW_HSV        0xA4
 
 #define RESPONSE_OK 1
 #define RESPONSE_ERROR 255
@@ -29,7 +28,7 @@ void setup() {
 }
 
 // storage for the color received over serial
-uint8_t r, g, b, brightness = 0;
+uint8_t h, s, v, brightness = 0;
 
 // For command parsing
 uint8_t byte1 = 0;
@@ -86,24 +85,20 @@ void handleCommand(uint8_t command, uint8_t parameter) {
       playPattern(parameter);
       break;
     }
-    case COMMAND_SET_RED: {
-      r = parameter;
+    case COMMAND_SET_HUE: {
+      h = parameter;
       break;
     }
-    case COMMAND_SET_GREEN: {
-      g = parameter;
+    case COMMAND_SET_SATURATION: {
+      s = parameter;
       break;
     }
-    case COMMAND_SET_BLUE: {
-      b = parameter;
+    case COMMAND_SET_VALUE: {
+      v = parameter;
       break;
     }
-    case COMMAND_SET_BRIGHTNESS: {
-      brightness = parameter;
-      break;
-    }
-    case COMMANd_SHOW_RGB: {
-      set_color(r, g, b, brightness);
+    case COMMANd_SHOW_HSV: {
+      set_color(h, s, v);
       Serial.write(RESPONSE_OK);
       break;
     }

@@ -8,10 +8,8 @@ for i in range(255):
     print("iteration: {}".format(i))
     # Set the color and show it
     ser.write([0xA0, i])
-    ser.write([0xA1, 255 - i])
-    ser.write([0xA2, i])
-    # brightness
-    ser.write([0xA3, 0xFF])
+    ser.write([0xA1, 0xFF])
+    ser.write([0xA2, 0xFF])
     # and show it
     ser.write([0xA4, 0x00])
     print(ser.read())
