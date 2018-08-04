@@ -33,3 +33,26 @@ To add a new pattern follow these steps:
 8. Program your pattern in the light.cpp file as a separate function.
 9. The function `playPattern(...)` will receive the ID you specified in step 6. Therefore add another switch case and call your function.
 10. Upload the sketch to the Arduino.
+
+## Renewing SSL Certificates
+
+SSL Certificates from Let's Encrypt are used. A cronjob is setup to run (in `/etc/crontab`) to run the `renew_certificates.sh` script once a month. If you need to refresh the certificate manually, run the script as follows:
+
+        sudo ./renew_certificates.sh
+
+## Arduino Communication
+
+The arduino supports several commands to turn on the lights. The following table describes the different commands. 
+See also the file `Balcony/Arduino/rgb_communication_test.py` that plays a hue sweep but controlled from a python script. 
+
+A command consists of two bytes. The first byte is the command, the second is an optional parameter. If nothing else is mentioned each command either returns 0x01 (success) or 0xFF (error). 
+
+| Command Name   | Command Identifier | Parameter          | Description                                                                                                                                    |
+|----------------|--------------------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------|
+| STATUS         | 0x01               | -                  | Check if the Arduino is up and running and responds to commands                                                                                |
+| PLAY           | 0x0A               | Pattern identifier | Play a pattern. The parameter is the pattern identifier. E.g. 0 to set the color to white.                                                     |
+| STOP           | 0x14               | -                  | Turn the lights off                                                                                                                            |
+| SET_HUE        | 0xA0               | Hue value          | Set the hue values of the LEDs. The color is not yet shown. Only if the command SHOW_HSV is sent. This command does not return anything.       |
+| SET_SATURATION | 0xA1               | Saturation value   | Set the saturation value of the LEDs. The color is not yet shown. Only if the command SHOW_HSV is sent. This command does not return anything. |
+| SET_VALUE      | 0xA2               | Value              | Set the value of the LEDs. The color is not yet shown. Only if the command SHOW_HSV is sent. This command does not return anything.            |
+| SHOW_HSV       | 0xA4               | -                  | Show the Hue, Saturation and Value previously set with the SET_HUE, SET_SATURATION and SET_VALUE commands.                                     |
