@@ -1,0 +1,3 @@
+[submodule "Arduino2/libs/FastLED-3.2.0"]
+	path = Arduino2/libs/FastLED-3.2.0
+	url = git@github.com:FastLED/FastLED.git
